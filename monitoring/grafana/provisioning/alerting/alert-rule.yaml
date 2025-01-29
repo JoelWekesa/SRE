@@ -1,0 +1,894 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: DNS Probe
+      folder: HTTP
+      interval: 1m
+      rules:
+        - uid: eeb30pi9mes5cb
+          title: DNS Probe Overview
+          condition: I
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_success{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_ssl{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: B
+            - refId: C
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: (probe_ssl_earliest_cert_expiry{job=~".+", instance=~".+"} - time()) / 3600 / 24
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: C
+            - refId: D
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_status_code{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: D
+            - refId: E
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_duration_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: false
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: E
+            - refId: F
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_tls_version_info{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: F
+            - refId: G
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_dns_lookup_time_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: G
+            - refId: H
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - H
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: E
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: H
+                type: reduce
+            - refId: I
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 3
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - I
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: H
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: I
+                type: threshold
+          dashboardUid: NEzutrbMk
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          annotations:
+            __dashboardUid__: NEzutrbMk
+            __panelId__: "2"
+            description: The DNS probe duration is exceeding the expected threshold, indicating a potential delay in resolving domain names. This could impact application performance, user experience, and connectivity. Investigate the underlying cause to ensure optimal DNS resolution times.
+            summary: High DNS Probe Duration
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+    - orgId: 1
+      name: SSL Cert
+      folder: HTTP
+      interval: 6h
+      rules:
+        - uid: aeb310lzch5vke
+          title: SSL Probe Overview
+          condition: I
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_success{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_ssl{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: B
+            - refId: C
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: (probe_ssl_earliest_cert_expiry{job=~".+", instance=~".+"} - time()) / 3600 / 24
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: C
+            - refId: D
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_status_code{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: D
+            - refId: E
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_duration_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: false
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: E
+            - refId: F
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_tls_version_info{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: F
+            - refId: G
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_dns_lookup_time_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: G
+            - refId: H
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - H
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: C
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: H
+                type: reduce
+            - refId: I
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 10
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - I
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: H
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: I
+                type: threshold
+          dashboardUid: NEzutrbMk
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 12h
+          annotations:
+            __dashboardUid__: NEzutrbMk
+            __panelId__: "2"
+            description: The SSL certificate for this service is nearing its expiration date. Failure to renew the certificate promptly could result in security risks, service disruptions, and loss of user trust. Take immediate action to renew the certificate before it expires.
+            summary: SSL Expiry
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+    - orgId: 1
+      name: Status
+      folder: HTTP
+      interval: 1m
+      rules:
+        - uid: aeb2ymzjt9lvke
+          title: HTTP Probe Overview
+          condition: I
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_success{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_ssl{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: B
+            - refId: C
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: (probe_ssl_earliest_cert_expiry{job=~".+", instance=~".+"} - time()) / 3600 / 24
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: C
+            - refId: D
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_status_code{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: D
+            - refId: E
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_duration_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: false
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: E
+            - refId: F
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_tls_version_info{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: F
+            - refId: G
+              relativeTimeRange:
+                from: 300
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_dns_lookup_time_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: G
+            - refId: H
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - H
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: H
+                type: reduce
+            - refId: I
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1
+                            - 204
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - I
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: H
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: I
+                type: threshold
+          dashboardUid: NEzutrbMk
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          annotations:
+            __dashboardUid__: NEzutrbMk
+            __panelId__: "2"
+            description: The HTTP probe has failed, indicating potential issues with the service's availability or connectivity. This could impact user experience and application functionality. Investigate the underlying cause of the probe failure and take necessary corrective actions.
+            summary: HTTP Probe Failure 
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+    - orgId: 1
+      name: Monitor
+      folder: System
+      interval: 1m
+      rules:
+        - uid: feb320q7qqqrkc
+          title: CPU Busy
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle", instance="node_exporter:9100"}[$__rate_interval])))
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 85
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 20
+          noDataState: NoData
+          execErrState: Error
+          for: 4m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "20"
+            description: The CPU usage on this system has exceeded the defined threshold, indicating a heavy load that may affect system performance. Sustained high CPU usage could lead to slowdowns, delays, or application unresponsiveness. Investigate the processes or workloads causing the spike to ensure optimal system performance.
+            summary: High CPU Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: ceb32pqmblxj4c
+          title: RAM Used
+          condition: D
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: ((node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"} - node_memory_MemFree_bytes{instance="node_exporter:9100", job="node_exporter"}) / node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"}) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: (1 - (node_memory_MemAvailable_bytes{instance="node_exporter:9100", job="node_exporter"} / node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"})) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: B
+                step: 240
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: C
+                type: reduce
+            - refId: D
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 85
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - D
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: C
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: D
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 16
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "16"
+            description: The system's RAM usage has exceeded the defined threshold, indicating that the system is utilizing a significant portion of available memory. Prolonged high memory usage could lead to slower performance, application crashes, or system instability. Investigate running processes to identify memory hogs and ensure efficient resource utilization.
+            summary: High RAM USage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: eeb34h2030c1se
+          title: Root FS Used
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: 100 - ((node_filesystem_avail_bytes{instance="node_exporter:9100",job="node_exporter",mountpoint="/",fstype!="rootfs"} * 100) / node_filesystem_size_bytes{instance="node_exporter:9100",job="node_exporter",mountpoint="/",fstype!="rootfs"})
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 90
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 154
+          noDataState: NoData
+          execErrState: Error
+          for: 1m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "154"
+            description: The root filesystem (Root FS) usage has exceeded the defined threshold, indicating that disk space is running low. If this continues, the system may experience performance issues, including failed processes or an inability to write essential files. Investigate the root filesystem to identify large files or processes consuming disk space and take action to free up space or extend the filesystem.
+            summary: High Root FS Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
