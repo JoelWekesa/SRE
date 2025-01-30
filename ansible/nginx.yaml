@@ -1,0 +1,28 @@
+---
+- name: Install and configure NGINX web server
+  hosts: nodes
+  become: yes 
+
+  tasks:
+   - name: Ensure docker compose directory exists for npm
+     file:
+      path: /opt/nginx-proxy-manager
+      state: directory
+
+   - name: Copy nginx proxy manager docker file
+     copy:
+      src: ./docker/npm.yaml
+      dest: /opt/nginx-proxy-manager/docker-compose.yaml
+
+
+   - name: Copy env file
+     copy:
+      src: ./docker/.env
+      dest: /opt/nginx-proxy-manager/.env
+
+   - name: Start Nginx Proxy Manager
+     community.docker.docker_compose_v2:
+      project_src: /opt/nginx-proxy-manager
+      files:
+       - docker-compose.yaml
+      state: present

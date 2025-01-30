@@ -1,0 +1,6 @@
+[nodes]
+44.214.73.106
+
+[nodes:vars]
+ansible_ssh_user=openvpnas
+ansible_ssh_private_key_file=./privatekey.pem

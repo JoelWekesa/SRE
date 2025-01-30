@@ -1,0 +1,33 @@
+networks:
+ app_network:
+  external: true
+
+services:
+ app:
+  image: 'jc21/nginx-proxy-manager:latest'
+  restart: unless-stopped
+  ports:
+   - '80:80'
+   - '8443:443'
+   - '81:81'
+  env_file: 
+    .env
+  volumes:
+   - ./data:/data
+   - ./letsencrypt:/etc/letsencrypt
+  depends_on:
+   - db
+  networks:
+   - app_network
+
+ db:
+  image: 'jc21/mariadb-aria:latest'
+  restart: unless-stopped
+  env_file: 
+    .env
+  
+  volumes:
+   - ./mysql:/var/lib/mysql
+
+  networks:
+   - app_network

@@ -1,0 +1,28 @@
+---
+- hosts: nodes
+  become: yes
+  vars_files:
+   - vars/keys.yaml
+  tasks:
+    - name: Ensure docker compose directory exists for postgres
+      file:
+       path: /opt/postgres
+       state: directory
+       mode: '0600'
+
+    - name: Copy postgres docker file
+      copy:
+       src: ./docker/postgres.yaml
+       dest: /opt/postgres/docker-compose.yaml
+
+    - name: Copy postgres env file
+      copy:
+       src: ./docker/.env
+       dest: /opt/postgres/.env
+
+    - name: Start Postgres
+      community.docker.docker_compose_v2:
+        project_src: /opt/postgres
+        files:
+          - docker-compose.yaml
+        state: present

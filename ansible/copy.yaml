@@ -1,0 +1,47 @@
+---
+- hosts: nodes
+  become: yes
+  vars_files:
+   - vars/keys.yaml
+  tasks:
+   - name: Create a devops group
+     ansible.builtin.group:
+      name: devops
+      state: present
+
+   - name: Create a devops user
+     ansible.builtin.user:
+      name: devops
+      group: devops
+      state: present
+      shell: /bin/bash
+      createhome: yes
+
+   - name: Create .ssh file for devops user
+     ansible.builtin.file:
+      path: /home/devops/.ssh
+      state: directory
+      mode: '0700'
+      owner: devops
+      group: devops
+
+   - name: Add public keys to devops user
+     ansible.builtin.copy:
+      content: "{{ devops_public_keys | join('\n') }}"
+      dest: /home/devops/.ssh/authorized_keys
+      owner: devops
+      group: devops
+      mode: '0600'
+
+   - name: Ensure opt directory exists
+     file:
+      path: /opt
+      state: directory
+
+   - name: Copy config file
+     copy:
+      src: './config.txt'
+      dest: '/opt/config.txt'
+      owner: devops
+      group: devops
+      mode: '0600'
