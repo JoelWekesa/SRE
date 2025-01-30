@@ -1,0 +1,1512 @@
+apiVersion: 1
+groups:
+    - orgId: 1
+      name: Probe
+      folder: HTTP
+      interval: 30s
+      rules:
+        - uid: eebjsbq1vupkwc
+          title: HTTP Probe Overview
+          condition: I
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_success{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_ssl{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: B
+            - refId: C
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: (probe_ssl_earliest_cert_expiry{job=~".+", instance=~".+"} - time()) / 3600 / 24
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: C
+            - refId: D
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_status_code{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: D
+            - refId: E
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_duration_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: false
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: E
+            - refId: F
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_tls_version_info{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: F
+            - refId: G
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_dns_lookup_time_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: G
+            - refId: H
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - H
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: D
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: H
+                type: reduce
+            - refId: I
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 200
+                            - 299
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - I
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: H
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: I
+                type: threshold
+          dashboardUid: NEzutrbMk
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          annotations:
+            __dashboardUid__: NEzutrbMk
+            __panelId__: "2"
+            description: The indicate site has been unreachable for the past 2 minutes
+            summary: Site Down Alert
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: debjugko6qnlsa
+          title: High DNS Probe Duration
+          condition: I
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_success{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_ssl{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: B
+            - refId: C
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: (probe_ssl_earliest_cert_expiry{job=~".+", instance=~".+"} - time()) / 3600 / 24
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: C
+            - refId: D
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_status_code{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: D
+            - refId: E
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_duration_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: false
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: E
+            - refId: F
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_tls_version_info{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: F
+            - refId: G
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_dns_lookup_time_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: G
+            - refId: H
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - H
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: E
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: H
+                type: reduce
+            - refId: I
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 4
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - I
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: H
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: I
+                type: threshold
+          dashboardUid: NEzutrbMk
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          annotations:
+            __dashboardUid__: NEzutrbMk
+            __panelId__: "2"
+            description: 'Warning: Average DNS lookup time for the listed domain is exceeding the warning threshold of 400 ms. Check DNS server.'
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: bebjut1rhjrpce
+          title: Critical DNS Probe Duration
+          condition: I
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_success{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_ssl{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: B
+            - refId: C
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: (probe_ssl_earliest_cert_expiry{job=~".+", instance=~".+"} - time()) / 3600 / 24
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: C
+            - refId: D
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_http_status_code{job=~".+", instance=~".+"} > 0
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: D
+            - refId: E
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_duration_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: false
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: E
+            - refId: F
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: probe_tls_version_info{job=~".+", instance=~".+"}
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: F
+            - refId: G
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: avg_over_time(probe_dns_lookup_time_seconds{job=~".+", instance=~".+"}[1m])
+                format: table
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                refId: G
+            - refId: H
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - H
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: E
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: last
+                refId: H
+                type: reduce
+            - refId: I
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0.6
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - I
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: H
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: I
+                type: threshold
+          dashboardUid: NEzutrbMk
+          panelId: 2
+          noDataState: NoData
+          execErrState: Error
+          for: 2m
+          annotations:
+            __dashboardUid__: NEzutrbMk
+            __panelId__: "2"
+            description: 'DNS Probe Duration Critical: Average DNS lookup time for the listed domain is exceeding the critical threshold of 600 ms. DNS server may be experiencing problems.'
+            summary: Critical DNS Probe Duration
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+    - orgId: 1
+      name: CPU Usage
+      folder: System
+      interval: 1m
+      rules:
+        - uid: debjlz6l78zcwc
+          title: CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: sum(rate(container_cpu_usage_seconds_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name) *100
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{name}}'
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 70
+                            - 80
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: pMEd7m0Mz
+          panelId: 15
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: pMEd7m0Mz
+            __panelId__: "15"
+            description: CPU usage is elevated. While the system is still functioning, investigate potential causes to prevent further increases.
+            summary: High CPU Usage Warning
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: febjmekvc4irke
+          title: Critical High CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: sum(rate(container_cpu_usage_seconds_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name) *100
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{name}}'
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 80
+                            - 90
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: pMEd7m0Mz
+          panelId: 15
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: pMEd7m0Mz
+            __panelId__: "15"
+            description: System CPU utilization is critically high. Performance is likely impacted. Immediate action is required.
+            summary: Critically CPU Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: bebjmmy32c1dse
+          title: Extremely High CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: sum(rate(container_cpu_usage_seconds_total{instance=~".*",name=~".*",name=~".+"}[5m])) by (name) *100
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{name}}'
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 90
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: pMEd7m0Mz
+          panelId: 15
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: pMEd7m0Mz
+            __panelId__: "15"
+            description: System CPU utilization is extremely high. System instability or complete failure is imminent. Immediate intervention is required.
+            summary: 'Emergency Level (Extremely High CPU Usage - System May Be Unresponsive):'
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: aebjovttjd1j4e
+          title: Hight System CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle", instance="node_exporter:9100"}[$__rate_interval])))
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 70
+                            - 80
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 20
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "20"
+            description: CPU usage is elevated. While the system is still functioning, investigate potential causes to prevent further increases.
+            summary: High System CPU Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: febjp8rx4s4xsf
+          title: Critically High CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle", instance="node_exporter:9100"}[$__rate_interval])))
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 80
+                            - 90
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 20
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "20"
+            description: CPU usage has exceeded the critical threshold. System responsiveness may be severely affected.
+            summary: Critically High CPU Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: febjpml9mz280d
+          title: Extremely High System CPU Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle", instance="node_exporter:9100"}[$__rate_interval])))
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                legendFormat: ""
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 90
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 20
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "20"
+            description: CPU usage is at a critical level, potentially causing a system overload. Immediate action is necessary.
+            summary: Extremely High CPU Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+    - orgId: 1
+      name: Memory Usage
+      folder: System
+      interval: 1m
+      rules:
+        - uid: cebjnxn0gzzswf
+          title: High Memory Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                expr: sum(container_memory_rss{instance=~".*",name=~".*",name=~".+"}) by (name)
+                instant: true
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{name}}'
+                maxDataPoints: 43200
+                range: false
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1.5e+09
+                            - 1.8e+09
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: pMEd7m0Mz
+          panelId: 9
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: pMEd7m0Mz
+            __panelId__: "9"
+            description: Memory usage is elevated. While the system is still functioning, investigate potential causes to prevent further increases.
+            summary: High Memory Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: cebjo9wcfnvuof
+          title: Extremely High Memory Usage
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 21600
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                expr: sum(container_memory_rss{instance=~".*",name=~".*",name=~".+"}) by (name)
+                interval: ""
+                intervalMs: 15000
+                legendFormat: '{{name}}'
+                maxDataPoints: 43200
+                refId: A
+            - refId: B
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - B
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 1.8e+09
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: pMEd7m0Mz
+          panelId: 9
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: pMEd7m0Mz
+            __panelId__: "9"
+            description: Memory usage has exceeded the critical threshold. System responsiveness may be severely affected.
+            summary: Extremely High memory usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: eebjq79w6axvka
+          title: High System RAM Usage
+          condition: D
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: ((node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"} - node_memory_MemFree_bytes{instance="node_exporter:9100", job="node_exporter"}) / node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"}) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: (1 - (node_memory_MemAvailable_bytes{instance="node_exporter:9100", job="node_exporter"} / node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"})) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: B
+                step: 240
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: C
+                type: reduce
+            - refId: D
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 75
+                            - 90
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - D
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: C
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: D
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 16
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "16"
+            description: Memory usage is elevated. While the system is still functioning, investigate potential causes to prevent further increases.
+            summary: High System RAM Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
+        - uid: aebjqijovyuwwd
+          title: Extremely High System RAM Usage
+          condition: D
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: ((node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"} - node_memory_MemFree_bytes{instance="node_exporter:9100", job="node_exporter"}) / node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"}) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: A
+                step: 240
+            - refId: B
+              relativeTimeRange:
+                from: 86400
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                adhocFilters: []
+                datasource:
+                    type: prometheus
+                    uid: PBFA97CFB590B2093
+                editorMode: code
+                exemplar: false
+                expr: (1 - (node_memory_MemAvailable_bytes{instance="node_exporter:9100", job="node_exporter"} / node_memory_MemTotal_bytes{instance="node_exporter:9100", job="node_exporter"})) * 100
+                format: time_series
+                instant: true
+                interval: ""
+                intervalFactor: 1
+                intervalMs: 15000
+                maxDataPoints: 43200
+                range: false
+                refId: B
+                step: 240
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params: []
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: C
+                type: reduce
+            - refId: D
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 90
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - D
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: C
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: D
+                type: threshold
+          dashboardUid: rYdddlPWk
+          panelId: 16
+          noDataState: NoData
+          execErrState: Error
+          for: 5m
+          annotations:
+            __dashboardUid__: rYdddlPWk
+            __panelId__: "16"
+            description: Memory usage has exceeded the critical threshold. System responsiveness may be severely affected.
+            summary: Extremely High System RAM Usage
+          isPaused: false
+          notification_settings:
+            receiver: Alerts
